@@ -3,61 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 選擇障礙終極助手</title>
+<title>AI 美食選擇障礙終極助手</title>
 
 <style>
 *{box-sizing:border-box}
 body{
   margin:0;
   font-family:"Segoe UI","Noto Sans TC",sans-serif;
-  background:
-    radial-gradient(circle at top left,#ffe1f2,transparent 30%),
-    radial-gradient(circle at top right,#d8f3ff,transparent 35%),
-    linear-gradient(135deg,#f7f2ff,#eef7ff);
+  background:radial-gradient(circle at top left,#ffe1f2,transparent 30%),
+  radial-gradient(circle at top right,#d8f3ff,transparent 35%),
+  linear-gradient(135deg,#f7f2ff,#eef7ff);
   color:#241b44;
   min-height:100vh;
   padding:30px;
 }
 .hero{
   background:rgba(255,255,255,.75);
-  backdrop-filter:blur(16px);
-  border:1px solid rgba(255,255,255,.8);
   border-radius:28px;
   padding:36px;
   box-shadow:0 20px 60px rgba(80,70,150,.15);
   margin-bottom:28px;
 }
-.tag{
-  letter-spacing:5px;
-  color:#8b6cff;
-  font-weight:800;
-  font-size:13px;
-}
-h1{
-  font-size:56px;
-  margin:16px 0 10px;
-}
-.hero p{
-  font-size:18px;
-  color:#655d80;
-}
-.main{
-  display:grid;
-  grid-template-columns:360px 1fr;
-  gap:28px;
-}
+.tag{letter-spacing:5px;color:#8b6cff;font-weight:800;font-size:13px}
+h1{font-size:56px;margin:16px 0 10px}
+.hero p{font-size:18px;color:#655d80}
+.main{display:grid;grid-template-columns:400px 1fr;gap:28px}
 .card{
   background:rgba(255,255,255,.82);
   border-radius:26px;
   padding:26px;
   box-shadow:0 15px 45px rgba(80,70,150,.12);
-  border:1px solid rgba(255,255,255,.9);
 }
-label{
-  font-weight:800;
-  margin-top:15px;
-  display:block;
-}
+label{font-weight:800;margin-top:15px;display:block}
 input{
   width:100%;
   padding:15px;
@@ -65,6 +42,12 @@ input{
   border:1px solid #ddd6f6;
   margin-top:8px;
   font-size:16px;
+}
+.option-row{display:flex;gap:8px;align-items:center}
+.delete-btn{
+  width:48px;
+  background:#ffe1ea;
+  color:#c0395a;
 }
 button{
   width:100%;
@@ -76,13 +59,11 @@ button{
   font-weight:800;
   cursor:pointer;
 }
+.addBtn{background:#eee8ff;color:#5f42c7}
 .ai{background:#6c63ff;color:white}
 .wheelBtn{background:#ffcf56;color:#3c2f00}
 .boxBtn{background:#ff7aa2;color:white}
-.stage{
-  text-align:center;
-  min-height:520px;
-}
+.stage{text-align:center;min-height:520px}
 .orb{
   width:280px;
   height:280px;
@@ -94,15 +75,9 @@ button{
   align-items:center;
   justify-content:center;
   font-size:52px;
-  transition:1s;
 }
-.spin{
-  animation:spin 1s linear infinite;
-}
-@keyframes spin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 .result{
   background:#f7f5ff;
   border-radius:22px;
@@ -112,36 +87,17 @@ button{
   line-height:1.8;
   display:none;
 }
-.result h2{
-  color:#6c48b8;
-}
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-  margin-top:20px;
-}
+.result h2{color:#6c48b8}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
 .stat{
   background:#fbfaff;
   padding:18px;
   border-radius:18px;
   border:1px solid #e5defa;
 }
-.stat span{
-  color:#8476a8;
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:2px;
-}
-.stat b{
-  display:block;
-  font-size:24px;
-  margin-top:8px;
-}
-@media(max-width:900px){
-  .main{grid-template-columns:1fr}
-  h1{font-size:40px}
-}
+.stat span{color:#8476a8;font-size:13px;font-weight:800;letter-spacing:2px}
+.stat b{display:block;font-size:22px;margin-top:8px}
+@media(max-width:900px){.main{grid-template-columns:1fr}h1{font-size:40px}}
 </style>
 </head>
 
@@ -150,7 +106,7 @@ button{
 <section class="hero">
   <div class="tag">DECISION PLAYGROUND</div>
   <h1>AI 選擇障礙終極助手</h1>
-  <p>把選擇交給 AI、命運轉盤或神秘盲盒，幫你快速結束猶豫。</p>
+  <p>可以新增多個選項，讓 AI、命運轉盤或神秘盲盒幫你結束猶豫。</p>
 </section>
 
 <section class="main">
@@ -158,11 +114,19 @@ button{
 <div class="card">
   <h2>輸入你的選擇</h2>
 
-  <label>選項 A</label>
-  <input id="optionA" placeholder="例如：火鍋">
+  <div id="optionsArea">
+    <label>選項 1</label>
+    <div class="option-row">
+      <input class="optionInput" placeholder="例如：火鍋">
+    </div>
 
-  <label>選項 B</label>
-  <input id="optionB" placeholder="例如：拉麵">
+    <label>選項 2</label>
+    <div class="option-row">
+      <input class="optionInput" placeholder="例如：拉麵">
+    </div>
+  </div>
+
+  <button class="addBtn" onclick="addOption()">＋ 新增一個選項</button>
 
   <label>今天心情</label>
   <input id="mood" placeholder="例如：很累、很快樂、想放鬆">
@@ -181,18 +145,9 @@ button{
   <div class="orb" id="orb">🎲</div>
 
   <div class="stats">
-    <div class="stat">
-      <span>MODE</span>
-      <b id="modeText">待選擇</b>
-    </div>
-    <div class="stat">
-      <span>RESULT</span>
-      <b id="smallResult">尚未分析</b>
-    </div>
-    <div class="stat">
-      <span>MOOD</span>
-      <b id="moodText">待輸入</b>
-    </div>
+    <div class="stat"><span>MODE</span><b id="modeText">待選擇</b></div>
+    <div class="stat"><span>RESULT</span><b id="smallResult">尚未分析</b></div>
+    <div class="stat"><span>OPTIONS</span><b id="optionCount">2 個</b></div>
   </div>
 
   <div class="result" id="resultBox">
@@ -204,17 +159,77 @@ button{
 </section>
 
 <script>
-function getInput(){
-  let A=document.getElementById("optionA").value;
-  let B=document.getElementById("optionB").value;
-  let mood=document.getElementById("mood").value;
-  let budget=Number(document.getElementById("budget").value);
+let optionNumber = 2;
 
-  if(A==="" || B===""){
-    alert("請先輸入兩個選項！");
+function addOption(){
+  optionNumber++;
+
+  let area = document.getElementById("optionsArea");
+
+  let label = document.createElement("label");
+  label.innerText = "選項 " + optionNumber;
+
+  let row = document.createElement("div");
+  row.className = "option-row";
+
+  let input = document.createElement("input");
+  input.className = "optionInput";
+  input.placeholder = "輸入新的選項";
+
+  let btn = document.createElement("button");
+  btn.className = "delete-btn";
+  btn.innerText = "×";
+  btn.onclick = function(){
+    row.remove();
+    label.remove();
+    updateOptionCount();
+  };
+
+  row.appendChild(input);
+  row.appendChild(btn);
+
+  area.appendChild(label);
+  area.appendChild(row);
+
+  updateOptionCount();
+}
+
+function getOptions(){
+  let inputs = document.querySelectorAll(".optionInput");
+  let options = [];
+
+  inputs.forEach(input=>{
+    if(input.value.trim() !== ""){
+      options.push(input.value.trim());
+    }
+  });
+
+  if(options.length < 2){
+    alert("請至少輸入兩個選項！");
     return null;
   }
-  return {A,B,mood,budget};
+
+  return options;
+}
+
+function updateOptionCount(){
+  let options = getFilledOptionsOnly();
+  document.getElementById("optionCount").innerText = options.length + " 個";
+}
+
+function getFilledOptionsOnly(){
+  let inputs = document.querySelectorAll(".optionInput");
+  let options = [];
+  inputs.forEach(input=>{
+    if(input.value.trim() !== ""){
+      options.push(input.value.trim());
+    }
+  });
+  return options;
+}
+
+function pickRandom(options){
+  return options[Math.floor(Math.random()*options.length)];
 }
 
 function showResult(mode,choice,reason,emoji){
@@ -223,64 +238,69 @@ function showResult(mode,choice,reason,emoji){
   document.getElementById("reasonResult").innerHTML=reason;
   document.getElementById("modeText").innerHTML=mode;
   document.getElementById("smallResult").innerHTML=choice;
-  document.getElementById("moodText").innerHTML=document.getElementById("mood").value || "未輸入";
+  document.getElementById("optionCount").innerHTML=getFilledOptionsOnly().length + " 個";
   document.getElementById("orb").innerHTML=emoji;
 }
 
 function analyzeDecision(){
-  let data=getInput();
-  if(!data)return;
+  let options = getOptions();
+  if(!options)return;
 
-  let scoreA=0, scoreB=0;
-  let reasons=[];
+  let mood = document.getElementById("mood").value;
+  let budget = Number(document.getElementById("budget").value);
 
-  if(data.mood.includes("累")||data.mood.includes("懶")||data.mood.includes("煩")){
-    scoreB+=2;
-    reasons.push("你現在的狀態比較需要省力，因此系統會偏向選擇較快速、負擔較低的選項。");
-  }
+  let scores = options.map(item=>({name:item,score:0,reasons:[]}));
 
-  if(data.mood.includes("快樂")||data.mood.includes("放鬆")||data.mood.includes("開心")){
-    scoreA+=2;
-    reasons.push("你的心情狀態不錯，適合選擇更有儀式感、體驗感比較高的選項。");
-  }
+  scores.forEach(item=>{
+    if(mood.includes("累")||mood.includes("懶")||mood.includes("煩")){
+      if(item.name.includes("拉麵")||item.name.includes("便當")||item.name.includes("涼麵")||item.name.includes("外帶")){
+        item.score += 3;
+        item.reasons.push("符合你現在想省力、快速解決的狀態。");
+      }
+    }
 
-  if(data.budget && data.budget<200){
-    scoreB+=2;
-    reasons.push("目前預算偏低，所以系統會優先考慮比較不容易超支的選項。");
-  }else if(data.budget>=300){
-    scoreA+=2;
-    reasons.push("你的預算相對充足，因此可以選擇滿足感或享受感更高的選項。");
-  }
+    if(mood.includes("快樂")||mood.includes("放鬆")||mood.includes("開心")){
+      if(item.name.includes("火鍋")||item.name.includes("燒肉")||item.name.includes("逛街")||item.name.includes("旅行")){
+        item.score += 3;
+        item.reasons.push("比較有儀式感，適合心情好時享受。");
+      }
+    }
 
-  if(data.A.includes("火鍋")||data.A.includes("燒肉")||data.A.includes("吃到飽")){
-    scoreA+=2;
-    reasons.push(data.A+" 通常飽足感高，也比較像是犒賞自己的選擇。");
-  }
+    if(budget && budget < 200){
+      if(item.name.includes("便當")||item.name.includes("涼麵")||item.name.includes("拉麵")){
+        item.score += 2;
+        item.reasons.push("預算壓力較低，比較不容易超支。");
+      }
+    }
 
-  if(data.B.includes("拉麵")||data.B.includes("便當")||data.B.includes("涼麵")){
-    scoreB+=2;
-    reasons.push(data.B+" 通常比較快速、方便，適合不想花太多時間猶豫的情況。");
-  }
+    if(budget >= 300){
+      if(item.name.includes("火鍋")||item.name.includes("燒肉")||item.name.includes("吃到飽")){
+        item.score += 2;
+        item.reasons.push("預算足夠，可以選擇滿足感更高的選項。");
+      }
+    }
 
-  let choice;
-  if(scoreA>scoreB){
-    choice=data.A;
-  }else if(scoreB>scoreA){
-    choice=data.B;
-  }else{
-    choice=Math.random()<0.5?data.A:data.B;
-    reasons.push("兩個選項條件接近，因此系統啟動命運判定，幫你結束猶豫。");
-  }
+    item.score += Math.random();
+  });
 
-  let reason="<b>分析原因：</b><br><br>"+reasons.join("<br><br>")+
-  "<br><br><b>最後結論：</b><br>綜合心情、預算與選項特性，現在比較推薦你選擇 <b>"+choice+"</b>。";
+  scores.sort((a,b)=>b.score-a.score);
 
-  showResult("AI 分析",choice,reason,"🧠");
+  let winner = scores[0];
+
+  let reason =
+  "<b>AI 分析結果：</b><br><br>" +
+  "本次共比較了 <b>" + options.length + "</b> 個選項。<br><br>" +
+  "系統依照你的心情、預算與選項特性進行判斷。<br><br>" +
+  "<b>推薦原因：</b><br>" +
+  (winner.reasons.length ? winner.reasons.join("<br>") : "這個選項在目前條件下最平衡，適合直接選擇。") +
+  "<br><br><b>最後結論：</b><br>現在最推薦你選擇 <b>" + winner.name + "</b>。";
+
+  showResult("AI 分析",winner.name,reason,"🧠");
 }
 
 function spinWheel(){
-  let data=getInput();
-  if(!data)return;
+  let options = getOptions();
+  if(!options)return;
 
   let orb=document.getElementById("orb");
   orb.classList.add("spin");
@@ -288,22 +308,30 @@ function spinWheel(){
   document.getElementById("modeText").innerHTML="轉盤中";
   document.getElementById("smallResult").innerHTML="轉轉轉...";
 
+  let i = 0;
+  let timer = setInterval(()=>{
+    document.getElementById("smallResult").innerHTML = options[i % options.length];
+    i++;
+  },150);
+
   setTimeout(()=>{
+    clearInterval(timer);
     orb.classList.remove("spin");
-    let choice=Math.random()<0.5?data.A:data.B;
-    showResult("命運轉盤",choice,"🎡 轉盤已經替你做出選擇。<br><br>這個模式適合兩個選項都可以、但你真的不想再想的時候。","🎉");
+    let choice=pickRandom(options);
+    showResult("命運轉盤",choice,"🎡 轉盤已經從全部選項中替你做出選擇。<br><br>這個模式適合每個選項都不錯，但你真的不想再想的時候。","🎉");
   },2500);
 }
 
 function mysteryBox(){
-  let data=getInput();
-  if(!data)return;
+  let options = getOptions();
+  if(!options)return;
 
-  let choices=[data.A,data.B];
-  let choice=choices[Math.floor(Math.random()*choices.length)];
+  let choice=pickRandom(options);
 
-  showResult("命運盲盒",choice,"🎁 盲盒開啟成功！<br><br>這不是理性分析，而是給猶豫太久的你一個快速答案。今天就選它。","🎁");
+  showResult("命運盲盒",choice,"🎁 盲盒開啟成功！<br><br>從所有選項中抽出的答案是它。今天就交給命運決定吧。","🎁");
 }
+
+document.addEventListener("input",updateOptionCount);
 </script>
 
 </body>
