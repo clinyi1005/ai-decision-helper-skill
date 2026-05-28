@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI 選擇障礙助手</title>
+<title>AI 選擇障礙終極助手</title>
 
 <style>
 
@@ -22,10 +22,10 @@ body{
 .container{
     background:white;
     width:90%;
-    max-width:600px;
+    max-width:700px;
     padding:40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    border-radius:25px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.2);
 }
 
 h1{
@@ -44,7 +44,7 @@ input{
     padding:15px;
     margin-top:15px;
     border:1px solid #ccc;
-    border-radius:10px;
+    border-radius:12px;
     font-size:16px;
     box-sizing:border-box;
 }
@@ -52,9 +52,9 @@ input{
 button{
     width:100%;
     padding:15px;
-    margin-top:25px;
+    margin-top:15px;
     border:none;
-    border-radius:10px;
+    border-radius:12px;
     background:#667eea;
     color:white;
     font-size:18px;
@@ -69,16 +69,32 @@ button:hover{
 .result{
     margin-top:30px;
     background:#f5f5f5;
-    padding:20px;
-    border-radius:15px;
+    padding:25px;
+    border-radius:20px;
     line-height:1.8;
     display:none;
 }
 
 .recommend{
-    font-size:24px;
+    font-size:28px;
     font-weight:bold;
     color:#764ba2;
+}
+
+.wheel{
+    margin-top:20px;
+    font-size:40px;
+    text-align:center;
+    font-weight:bold;
+    color:#ff5722;
+}
+
+.boxResult{
+    margin-top:20px;
+    text-align:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#ff9800;
 }
 
 </style>
@@ -88,10 +104,10 @@ button:hover{
 
 <div class="container">
 
-<h1>AI 選擇障礙助手</h1>
+<h1>AI 選擇障礙終極助手</h1>
 
 <div class="subtitle">
-幫助你快速做出選擇
+分析、抽籤、命運轉盤一次搞定
 </div>
 
 <input type="text" id="optionA" placeholder="輸入選項 A">
@@ -103,7 +119,15 @@ button:hover{
 <input type="number" id="budget" placeholder="預算（元）">
 
 <button onclick="analyzeDecision()">
-開始分析
+🧠 AI 分析模式
+</button>
+
+<button onclick="spinWheel()">
+🎡 命運轉盤
+</button>
+
+<button onclick="mysteryBox()">
+🎁 開啟命運盲盒
 </button>
 
 <div class="result" id="result">
@@ -111,6 +135,10 @@ button:hover{
 <div class="recommend" id="recommendText"></div>
 
 <div id="reasonText"></div>
+
+<div class="wheel" id="wheelText"></div>
+
+<div class="boxResult" id="boxText"></div>
 
 </div>
 
@@ -123,42 +151,143 @@ function analyzeDecision(){
     let optionA = document.getElementById("optionA").value;
     let optionB = document.getElementById("optionB").value;
     let mood = document.getElementById("mood").value;
-    let budget = document.getElementById("budget").value;
+    let budget = Number(document.getElementById("budget").value);
+
+    if(optionA === "" || optionB === ""){
+        alert("請輸入兩個選項！");
+        return;
+    }
+
+    let scoreA = 0;
+    let scoreB = 0;
+    let reasons = [];
+
+    if(mood.includes("累") || mood.includes("懶")){
+        scoreB += 2;
+        reasons.push("你今天偏疲累，因此系統傾向推薦較輕鬆快速的選項。");
+    }
+
+    if(mood.includes("快樂") || mood.includes("開心")){
+        scoreA += 2;
+        reasons.push("你今天心情不錯，適合選擇更有滿足感與儀式感的選項。");
+    }
+
+    if(budget < 200){
+        scoreB += 2;
+        reasons.push("目前預算較低，因此系統優先考慮價格較容易控制的選項。");
+    }else if(budget >= 300){
+        scoreA += 2;
+        reasons.push("你的預算相對充足，可以選擇體驗感更高的選項。");
+    }
+
+    if(optionA.includes("火鍋") || optionA.includes("燒肉")){
+        scoreA += 2;
+        reasons.push(optionA + " 的飽足感與聚餐感較高，適合犒賞自己。");
+    }
+
+    if(optionB.includes("拉麵") || optionB.includes("涼麵")){
+        scoreB += 2;
+        reasons.push(optionB + " 通常出餐速度較快，也比較方便。");
+    }
 
     let recommend = "";
-    let reason = "";
+    let finalReason = "";
 
-    if(mood.includes("累")){
-
-        recommend = optionB;
-
-        reason =
-        "因為你今天比較疲累，推薦選擇較輕鬆、快速的選項。";
-
-    }else if(budget < 200){
-
-        recommend = optionB;
-
-        reason =
-        "目前預算較低，推薦選擇較符合預算的選項。";
-
-    }else{
-
+    if(scoreA > scoreB){
         recommend = optionA;
-
-        reason =
-        "綜合分析後，推薦你選擇這個選項。";
-
+    }else if(scoreB > scoreA){
+        recommend = optionB;
+    }else{
+        recommend = Math.random() < 0.5 ? optionA : optionB;
+        reasons.push("兩個選項條件接近，因此系統啟動命運判定模式。");
     }
+
+    finalReason =
+    "綜合你的心情、預算與選項特性分析後，" +
+    recommend +
+    " 更符合你現在的需求。";
 
     document.getElementById("result").style.display = "block";
 
     document.getElementById("recommendText").innerHTML =
-    "推薦選擇：" + recommend;
+    "🎯 AI 推薦：" + recommend;
 
     document.getElementById("reasonText").innerHTML =
-    "<br>分析原因：<br>" + reason;
+    "<br><b>分析原因：</b><br><br>" +
+    reasons.join("<br><br>") +
+    "<br><br><b>最後結論：</b><br>" +
+    finalReason;
 
+    document.getElementById("wheelText").innerHTML = "";
+    document.getElementById("boxText").innerHTML = "";
+}
+
+function spinWheel(){
+
+    let optionA = document.getElementById("optionA").value;
+    let optionB = document.getElementById("optionB").value;
+
+    if(optionA === "" || optionB === ""){
+        alert("請輸入兩個選項！");
+        return;
+    }
+
+    document.getElementById("result").style.display = "block";
+
+    let wheel = document.getElementById("wheelText");
+
+    wheel.innerHTML = "🎡 轉盤旋轉中...";
+
+    let count = 0;
+
+    let animation = setInterval(function(){
+
+        wheel.innerHTML =
+        count % 2 === 0 ? optionA : optionB;
+
+        count++;
+
+    },200);
+
+    setTimeout(function(){
+
+        clearInterval(animation);
+
+        let finalChoice =
+        Math.random() < 0.5 ? optionA : optionB;
+
+        wheel.innerHTML =
+        "🎉 命運選中了：" + finalChoice;
+
+        document.getElementById("recommendText").innerHTML = "";
+        document.getElementById("reasonText").innerHTML = "";
+        document.getElementById("boxText").innerHTML = "";
+
+    },3000);
+}
+
+function mysteryBox(){
+
+    let optionA = document.getElementById("optionA").value;
+    let optionB = document.getElementById("optionB").value;
+
+    if(optionA === "" || optionB === ""){
+        alert("請輸入兩個選項！");
+        return;
+    }
+
+    document.getElementById("result").style.display = "block";
+
+    let result =
+    Math.random() < 0.5 ? optionA : optionB;
+
+    document.getElementById("boxText").innerHTML =
+    "🎁 命運盲盒開啟！<br><br>今天就決定是：" +
+    result;
+
+    document.getElementById("recommendText").innerHTML = "";
+    document.getElementById("reasonText").innerHTML = "";
+    document.getElementById("wheelText").innerHTML = "";
 }
 
 </script>
