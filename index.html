@@ -3,293 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>AI 選擇障礙終極助手</title>
 
 <style>
-
+*{box-sizing:border-box}
 body{
-    margin:0;
-    padding:0;
-    font-family:Arial;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
+  margin:0;
+  font-family:"Segoe UI","Noto Sans TC",sans-serif;
+  background:
+    radial-gradient(circle at top left,#ffe1f2,transparent 30%),
+    radial-gradient(circle at top right,#d8f3ff,transparent 35%),
+    linear-gradient(135deg,#f7f2ff,#eef7ff);
+  color:#241b44;
+  min-height:100vh;
+  padding:30px;
 }
-
-.container{
-    background:white;
-    width:90%;
-    max-width:700px;
-    padding:40px;
-    border-radius:25px;
-    box-shadow:0 10px 40px rgba(0,0,0,0.2);
+.hero{
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.8);
+  border-radius:28px;
+  padding:36px;
+  box-shadow:0 20px 60px rgba(80,70,150,.15);
+  margin-bottom:28px;
 }
-
+.tag{
+  letter-spacing:5px;
+  color:#8b6cff;
+  font-weight:800;
+  font-size:13px;
+}
 h1{
-    text-align:center;
-    margin-bottom:10px;
+  font-size:56px;
+  margin:16px 0 10px;
 }
-
-.subtitle{
-    text-align:center;
-    color:gray;
-    margin-bottom:30px;
+.hero p{
+  font-size:18px;
+  color:#655d80;
 }
-
+.main{
+  display:grid;
+  grid-template-columns:360px 1fr;
+  gap:28px;
+}
+.card{
+  background:rgba(255,255,255,.82);
+  border-radius:26px;
+  padding:26px;
+  box-shadow:0 15px 45px rgba(80,70,150,.12);
+  border:1px solid rgba(255,255,255,.9);
+}
+label{
+  font-weight:800;
+  margin-top:15px;
+  display:block;
+}
 input{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:1px solid #ccc;
-    border-radius:12px;
-    font-size:16px;
-    box-sizing:border-box;
+  width:100%;
+  padding:15px;
+  border-radius:16px;
+  border:1px solid #ddd6f6;
+  margin-top:8px;
+  font-size:16px;
 }
-
 button{
-    width:100%;
-    padding:15px;
-    margin-top:15px;
-    border:none;
-    border-radius:12px;
-    background:#667eea;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.3s;
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:16px;
+  margin-top:14px;
+  font-size:17px;
+  font-weight:800;
+  cursor:pointer;
 }
-
-button:hover{
-    background:#5568d8;
+.ai{background:#6c63ff;color:white}
+.wheelBtn{background:#ffcf56;color:#3c2f00}
+.boxBtn{background:#ff7aa2;color:white}
+.stage{
+  text-align:center;
+  min-height:520px;
 }
-
+.orb{
+  width:280px;
+  height:280px;
+  margin:35px auto;
+  border-radius:50%;
+  background:linear-gradient(135deg,#ffb6d9,#8e7dff);
+  box-shadow:0 0 0 18px rgba(255,255,255,.7),0 25px 80px rgba(130,100,255,.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:52px;
+  transition:1s;
+}
+.spin{
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
 .result{
-    margin-top:30px;
-    background:#f5f5f5;
-    padding:25px;
-    border-radius:20px;
-    line-height:1.8;
-    display:none;
+  background:#f7f5ff;
+  border-radius:22px;
+  padding:24px;
+  margin-top:25px;
+  text-align:left;
+  line-height:1.8;
+  display:none;
 }
-
-.recommend{
-    font-size:28px;
-    font-weight:bold;
-    color:#764ba2;
+.result h2{
+  color:#6c48b8;
 }
-
-.wheel{
-    margin-top:20px;
-    font-size:40px;
-    text-align:center;
-    font-weight:bold;
-    color:#ff5722;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:20px;
 }
-
-.boxResult{
-    margin-top:20px;
-    text-align:center;
-    font-size:28px;
-    font-weight:bold;
-    color:#ff9800;
+.stat{
+  background:#fbfaff;
+  padding:18px;
+  border-radius:18px;
+  border:1px solid #e5defa;
 }
-
+.stat span{
+  color:#8476a8;
+  font-size:13px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+.stat b{
+  display:block;
+  font-size:24px;
+  margin-top:8px;
+}
+@media(max-width:900px){
+  .main{grid-template-columns:1fr}
+  h1{font-size:40px}
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<section class="hero">
+  <div class="tag">DECISION PLAYGROUND</div>
+  <h1>AI 選擇障礙終極助手</h1>
+  <p>把選擇交給 AI、命運轉盤或神秘盲盒，幫你快速結束猶豫。</p>
+</section>
 
-<h1>AI 選擇障礙終極助手</h1>
+<section class="main">
 
-<div class="subtitle">
-分析、抽籤、命運轉盤一次搞定
+<div class="card">
+  <h2>輸入你的選擇</h2>
+
+  <label>選項 A</label>
+  <input id="optionA" placeholder="例如：火鍋">
+
+  <label>選項 B</label>
+  <input id="optionB" placeholder="例如：拉麵">
+
+  <label>今天心情</label>
+  <input id="mood" placeholder="例如：很累、很快樂、想放鬆">
+
+  <label>預算</label>
+  <input id="budget" type="number" placeholder="例如：300">
+
+  <button class="ai" onclick="analyzeDecision()">🧠 AI 分析模式</button>
+  <button class="wheelBtn" onclick="spinWheel()">🎡 命運轉盤</button>
+  <button class="boxBtn" onclick="mysteryBox()">🎁 開啟命運盲盒</button>
 </div>
 
-<input type="text" id="optionA" placeholder="輸入選項 A">
+<div class="card stage">
+  <h2>決策舞台</h2>
 
-<input type="text" id="optionB" placeholder="輸入選項 B">
+  <div class="orb" id="orb">🎲</div>
 
-<input type="text" id="mood" placeholder="今天心情如何？">
+  <div class="stats">
+    <div class="stat">
+      <span>MODE</span>
+      <b id="modeText">待選擇</b>
+    </div>
+    <div class="stat">
+      <span>RESULT</span>
+      <b id="smallResult">尚未分析</b>
+    </div>
+    <div class="stat">
+      <span>MOOD</span>
+      <b id="moodText">待輸入</b>
+    </div>
+  </div>
 
-<input type="number" id="budget" placeholder="預算（元）">
-
-<button onclick="analyzeDecision()">
-🧠 AI 分析模式
-</button>
-
-<button onclick="spinWheel()">
-🎡 命運轉盤
-</button>
-
-<button onclick="mysteryBox()">
-🎁 開啟命運盲盒
-</button>
-
-<div class="result" id="result">
-
-<div class="recommend" id="recommendText"></div>
-
-<div id="reasonText"></div>
-
-<div class="wheel" id="wheelText"></div>
-
-<div class="boxResult" id="boxText"></div>
-
+  <div class="result" id="resultBox">
+    <h2 id="titleResult"></h2>
+    <div id="reasonResult"></div>
+  </div>
 </div>
 
-</div>
+</section>
 
 <script>
+function getInput(){
+  let A=document.getElementById("optionA").value;
+  let B=document.getElementById("optionB").value;
+  let mood=document.getElementById("mood").value;
+  let budget=Number(document.getElementById("budget").value);
+
+  if(A==="" || B===""){
+    alert("請先輸入兩個選項！");
+    return null;
+  }
+  return {A,B,mood,budget};
+}
+
+function showResult(mode,choice,reason,emoji){
+  document.getElementById("resultBox").style.display="block";
+  document.getElementById("titleResult").innerHTML="推薦結果： " + choice;
+  document.getElementById("reasonResult").innerHTML=reason;
+  document.getElementById("modeText").innerHTML=mode;
+  document.getElementById("smallResult").innerHTML=choice;
+  document.getElementById("moodText").innerHTML=document.getElementById("mood").value || "未輸入";
+  document.getElementById("orb").innerHTML=emoji;
+}
 
 function analyzeDecision(){
+  let data=getInput();
+  if(!data)return;
 
-    let optionA = document.getElementById("optionA").value;
-    let optionB = document.getElementById("optionB").value;
-    let mood = document.getElementById("mood").value;
-    let budget = Number(document.getElementById("budget").value);
+  let scoreA=0, scoreB=0;
+  let reasons=[];
 
-    if(optionA === "" || optionB === ""){
-        alert("請輸入兩個選項！");
-        return;
-    }
+  if(data.mood.includes("累")||data.mood.includes("懶")||data.mood.includes("煩")){
+    scoreB+=2;
+    reasons.push("你現在的狀態比較需要省力，因此系統會偏向選擇較快速、負擔較低的選項。");
+  }
 
-    let scoreA = 0;
-    let scoreB = 0;
-    let reasons = [];
+  if(data.mood.includes("快樂")||data.mood.includes("放鬆")||data.mood.includes("開心")){
+    scoreA+=2;
+    reasons.push("你的心情狀態不錯，適合選擇更有儀式感、體驗感比較高的選項。");
+  }
 
-    if(mood.includes("累") || mood.includes("懶")){
-        scoreB += 2;
-        reasons.push("你今天偏疲累，因此系統傾向推薦較輕鬆快速的選項。");
-    }
+  if(data.budget && data.budget<200){
+    scoreB+=2;
+    reasons.push("目前預算偏低，所以系統會優先考慮比較不容易超支的選項。");
+  }else if(data.budget>=300){
+    scoreA+=2;
+    reasons.push("你的預算相對充足，因此可以選擇滿足感或享受感更高的選項。");
+  }
 
-    if(mood.includes("快樂") || mood.includes("開心")){
-        scoreA += 2;
-        reasons.push("你今天心情不錯，適合選擇更有滿足感與儀式感的選項。");
-    }
+  if(data.A.includes("火鍋")||data.A.includes("燒肉")||data.A.includes("吃到飽")){
+    scoreA+=2;
+    reasons.push(data.A+" 通常飽足感高，也比較像是犒賞自己的選擇。");
+  }
 
-    if(budget < 200){
-        scoreB += 2;
-        reasons.push("目前預算較低，因此系統優先考慮價格較容易控制的選項。");
-    }else if(budget >= 300){
-        scoreA += 2;
-        reasons.push("你的預算相對充足，可以選擇體驗感更高的選項。");
-    }
+  if(data.B.includes("拉麵")||data.B.includes("便當")||data.B.includes("涼麵")){
+    scoreB+=2;
+    reasons.push(data.B+" 通常比較快速、方便，適合不想花太多時間猶豫的情況。");
+  }
 
-    if(optionA.includes("火鍋") || optionA.includes("燒肉")){
-        scoreA += 2;
-        reasons.push(optionA + " 的飽足感與聚餐感較高，適合犒賞自己。");
-    }
+  let choice;
+  if(scoreA>scoreB){
+    choice=data.A;
+  }else if(scoreB>scoreA){
+    choice=data.B;
+  }else{
+    choice=Math.random()<0.5?data.A:data.B;
+    reasons.push("兩個選項條件接近，因此系統啟動命運判定，幫你結束猶豫。");
+  }
 
-    if(optionB.includes("拉麵") || optionB.includes("涼麵")){
-        scoreB += 2;
-        reasons.push(optionB + " 通常出餐速度較快，也比較方便。");
-    }
+  let reason="<b>分析原因：</b><br><br>"+reasons.join("<br><br>")+
+  "<br><br><b>最後結論：</b><br>綜合心情、預算與選項特性，現在比較推薦你選擇 <b>"+choice+"</b>。";
 
-    let recommend = "";
-    let finalReason = "";
-
-    if(scoreA > scoreB){
-        recommend = optionA;
-    }else if(scoreB > scoreA){
-        recommend = optionB;
-    }else{
-        recommend = Math.random() < 0.5 ? optionA : optionB;
-        reasons.push("兩個選項條件接近，因此系統啟動命運判定模式。");
-    }
-
-    finalReason =
-    "綜合你的心情、預算與選項特性分析後，" +
-    recommend +
-    " 更符合你現在的需求。";
-
-    document.getElementById("result").style.display = "block";
-
-    document.getElementById("recommendText").innerHTML =
-    "🎯 AI 推薦：" + recommend;
-
-    document.getElementById("reasonText").innerHTML =
-    "<br><b>分析原因：</b><br><br>" +
-    reasons.join("<br><br>") +
-    "<br><br><b>最後結論：</b><br>" +
-    finalReason;
-
-    document.getElementById("wheelText").innerHTML = "";
-    document.getElementById("boxText").innerHTML = "";
+  showResult("AI 分析",choice,reason,"🧠");
 }
 
 function spinWheel(){
+  let data=getInput();
+  if(!data)return;
 
-    let optionA = document.getElementById("optionA").value;
-    let optionB = document.getElementById("optionB").value;
+  let orb=document.getElementById("orb");
+  orb.classList.add("spin");
+  orb.innerHTML="🎡";
+  document.getElementById("modeText").innerHTML="轉盤中";
+  document.getElementById("smallResult").innerHTML="轉轉轉...";
 
-    if(optionA === "" || optionB === ""){
-        alert("請輸入兩個選項！");
-        return;
-    }
-
-    document.getElementById("result").style.display = "block";
-
-    let wheel = document.getElementById("wheelText");
-
-    wheel.innerHTML = "🎡 轉盤旋轉中...";
-
-    let count = 0;
-
-    let animation = setInterval(function(){
-
-        wheel.innerHTML =
-        count % 2 === 0 ? optionA : optionB;
-
-        count++;
-
-    },200);
-
-    setTimeout(function(){
-
-        clearInterval(animation);
-
-        let finalChoice =
-        Math.random() < 0.5 ? optionA : optionB;
-
-        wheel.innerHTML =
-        "🎉 命運選中了：" + finalChoice;
-
-        document.getElementById("recommendText").innerHTML = "";
-        document.getElementById("reasonText").innerHTML = "";
-        document.getElementById("boxText").innerHTML = "";
-
-    },3000);
+  setTimeout(()=>{
+    orb.classList.remove("spin");
+    let choice=Math.random()<0.5?data.A:data.B;
+    showResult("命運轉盤",choice,"🎡 轉盤已經替你做出選擇。<br><br>這個模式適合兩個選項都可以、但你真的不想再想的時候。","🎉");
+  },2500);
 }
 
 function mysteryBox(){
+  let data=getInput();
+  if(!data)return;
 
-    let optionA = document.getElementById("optionA").value;
-    let optionB = document.getElementById("optionB").value;
+  let choices=[data.A,data.B];
+  let choice=choices[Math.floor(Math.random()*choices.length)];
 
-    if(optionA === "" || optionB === ""){
-        alert("請輸入兩個選項！");
-        return;
-    }
-
-    document.getElementById("result").style.display = "block";
-
-    let result =
-    Math.random() < 0.5 ? optionA : optionB;
-
-    document.getElementById("boxText").innerHTML =
-    "🎁 命運盲盒開啟！<br><br>今天就決定是：" +
-    result;
-
-    document.getElementById("recommendText").innerHTML = "";
-    document.getElementById("reasonText").innerHTML = "";
-    document.getElementById("wheelText").innerHTML = "";
+  showResult("命運盲盒",choice,"🎁 盲盒開啟成功！<br><br>這不是理性分析，而是給猶豫太久的你一個快速答案。今天就選它。","🎁");
 }
-
 </script>
 
 </body>
